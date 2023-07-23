@@ -1,0 +1,50 @@
+name: Terraform Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+
+jobs:
+  terraform_plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init -input=false Terraform/main/
+
+      - name: Terraform Validate
+        run: terraform validate -chdir=Terraform/main/
+
+      - name: Terraform Plan
+        run: terraform plan -input=false -chdir=Terraform/main/
+
+  terraform_apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init -input=false Terraform/main/
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false Terraform/main/

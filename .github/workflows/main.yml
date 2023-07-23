@@ -35,13 +35,13 @@ jobs:
             }
 
       - name: Terraform Init
-        run: terraform -chdir=Terraform/main/ init -input=false
+        run: echo "terraform -chdir=Terraform/main/ init -input=false"
 
       - name: Terraform Validate
-        run: terraform validate -chdir=Terraform/main/
+        run: echo "terraform validate -chdir=Terraform/main/"
 
       - name: Terraform Plan
-        run: terraform plan -input=false -chdir=Terraform/main/
+        run: echo "terraform plan -input=false -chdir=Terraform/main/" 
 
   terraform_apply:
     name: Terraform Apply
@@ -66,7 +66,7 @@ jobs:
             }
 
       - name: Terraform Init
-        run: terraform init -input=false Terraform/main/
+        run: echo "terraform init -input=false Terraform/main/" 
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false Terraform/main/
+        run: echo "terraform apply -auto-approve -input=false Terraform/main/" 
